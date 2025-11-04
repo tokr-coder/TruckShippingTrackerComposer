@@ -1,0 +1,518 @@
+/* Custom CSS for Shipment Manager */
+
+:root {
+    --primary-color: #0d6efd;
+    --success-color: #198754;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #0dcaf0;
+    --light-gray: #f8f9fa;
+    --border-color: #dee2e6;
+}
+
+body {
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Shipment Capacity Bar Styles */
+.shipment-bar {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.shipment-bar:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.shipment-header {
+    background: linear-gradient(135deg, var(--primary-color), #0056b3);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shipment-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.shipment-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.shipment-actions .btn {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.shipment-content {
+    padding: 20px;
+}
+
+.capacity-bar-container {
+    display: none;
+}
+
+.capacity-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.capacity-bar {
+    height: 25px;
+    background-color: var(--light-gray);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.capacity-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-color), #20c997);
+    border-radius: 12px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.capacity-fill.warning {
+    background: linear-gradient(90deg, var(--warning-color), #fd7e14);
+}
+
+.capacity-fill.danger {
+    background: linear-gradient(90deg, var(--danger-color), #e74c3c);
+}
+
+.capacity-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Order Item Styles */
+.orders-container {
+    min-height: 80px;
+    padding: 10px;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    border: 2px dashed var(--border-color);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 2px;
+}
+
+.orders-container.drag-over {
+    background-color: #e3f2fd;
+    border-color: var(--primary-color);
+    transform: scale(1.02);
+}
+
+.order-item {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 8px;
+    cursor: move;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    z-index: 10;
+}
+
+.order-item:active {
+    cursor: grabbing;
+}
+
+.order-item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    z-index: 1000;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+    width: 100%;
+}
+
+.order-id {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.order-priority {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.order-priority.low { background-color: #d1ecf1; color: #0c5460; }
+.order-priority.normal { background-color: #d4edda; color: #155724; }
+.order-priority.high { background-color: #fff3cd; color: #856404; }
+.order-priority.urgent { background-color: #f8d7da; color: #721c24; }
+
+.order-details {
+    font-size: 0.7rem;
+    color: #666;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.order-actions {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 20;
+}
+
+.order-item:hover .order-actions {
+    opacity: 1;
+}
+
+.order-actions .btn {
+    padding: 2px 4px;
+    font-size: 0.6rem;
+    margin-left: 2px;
+    line-height: 1;
+}
+
+/* Holding Area Styles */
+.holding-area {
+    min-height: 80px;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 2px;
+}
+
+.holding-area.drag-over {
+    border-color: #007bff;
+    background-color: #e3f2fd;
+}
+
+.holding-area.has-items {
+    background-color: #e8f5e8;
+    border-color: var(--success-color);
+}
+
+.holding-area:empty::before,
+.holding-area > p:only-child {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Empty State Styles */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6c757d;
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+/* Card Enhancements */
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Button Enhancements */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Modal Enhancements */
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 10px 10px 0 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .shipment-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .shipment-actions {
+        justify-content: center;
+    }
+    
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .order-actions {
+        position: static;
+        opacity: 1;
+        margin-top: 5px;
+    }
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--primary-color);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.toast {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #adb5bd;
+} 
+
+/* Single Page App Styles */
+.page-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.page-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navigation active states */
+.nav-link[data-page] {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-link[data-page]:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.nav-link[data-page].active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Settings Modal Styles */
+#settingsModal .modal-dialog {
+    max-width: 90%;
+}
+
+#settingsModal .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Stats Cards - Compact Size */
+.stats-card {
+    margin-bottom: 15px;
+}
+
+.stats-card .card-body {
+    padding: 0.75rem !important;
+}
+
+.stats-card .card-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.stats-card .h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.stats-card i {
+    font-size: 1.25rem;
+}
+
+/* Tooltip Styles */
+.order-item[data-bs-toggle="tooltip"] {
+    cursor: move;
+    position: relative;
+}
+
+/* Bootstrap tooltip z-index override - ensure it's below modals */
+.tooltip {
+    z-index: 1060 !important;
+    pointer-events: none;
+}
+
+/* Ensure tooltips don't interfere with drag operations */
+.order-item.dragging {
+    opacity: 0.5;
+}
+
+.order-item.dragging .tooltip {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Prevent tooltip from blocking interactions */
+.tooltip.show {
+    pointer-events: none;
+}
+
+/* Ensure tooltips are properly positioned and don't interfere */
+.tooltip-inner {
+    pointer-events: none;
+}
+
+/* Hide tooltips when mouse leaves the container during drag */
+.orders-container.drag-over .tooltip,
+.holding-area.drag-over .tooltip {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #settingsModal .modal-dialog {
+        max-width: 95%;
+        margin: 10px;
+    }
+    
+    .page-content {
+        padding: 10px;
+    }
+
+    .orders-container {
+        flex-wrap: wrap;
+    }
+
+    .holding-area {
+        flex-wrap: wrap;
+    }
+} 
